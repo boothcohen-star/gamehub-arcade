@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GameHub Arcade</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#0b1020;color:#fff;font-family:Arial,sans-serif}
+header{text-align:center;padding:28px 12px;background:#151d35}
+h1{color:#60a5fa;margin:0;font-size:38px}
+header p{color:#cbd5e1}
+#search{display:block;width:min(90%,500px);padding:13px;margin:20px auto;background:#1e293b;color:white;border:1px solid #475569;border-radius:10px;font-size:16px}
+#games{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;padding:20px;max-width:1100px;margin:auto}
+.game{padding:25px 12px;text-align:center;background:#172554;border:1px solid #334155;border-radius:12px;color:white;cursor:pointer;font-weight:bold}
+.game:hover{background:#1d4ed8}
+#player{display:none;position:fixed;inset:0;background:#050816;z-index:10}
+#bar{height:48px;display:flex}
+#bar button{flex:1;background:#2563eb;color:white;border:0;font-size:16px;cursor:pointer}
+#frame{width:100%;height:calc(100% - 48px);border:0;background:white}
+</style>
+</head>
+<body>
+<header>
+<h1>🎮 GameHub</h1>
+<p>Choose a game and start playing</p>
+</header>
+<input id="search" placeholder="Search games..." oninput="filterGames()">
+<div id="games"></div>
+<div id="player">
+<div id="bar">
+<button onclick="document.getElementById('player').style.display='none';document.getElementById('frame').src=''">✕ Close</button>
+<button onclick="document.getElementById('frame').requestFullscreen()">⛶ Fullscreen</button>
+</div>
+<iframe id="frame" allow="fullscreen" allowfullscreen></iframe>
+</div>
+<script>
+const names=["2048","Air Hockey","Anagram","Angry Birds","Ant Colony","ASCII Art","Asteroids","Ball Sort","Battleship","Blackjack","Block Puzzle","Boggle","Bouncing Balls","Chinese Chess","Color Memory","Color Puzzle","Color Sort","Connect Four","Crossword","Dice War","Dino Run","Domino","Duck Hunt","Dungeon","Emoji Puzzle","Endless Runner","Escape Room","Flappy Bird","Fractal","Freecell","Frogger","Fruit Ninja","Galaga","Gravity Sim","Hangman","Hex Strategy","Idle Clicker","Jigsaw","Kaleidoscope","Kingdom Builder","Laser Cannon","Lights Out","Mahjong","Mastermind","Match 3","Maze Runner","Memory Match","Minesweeper","Mini Golf","Missile Command","Monster Catcher","Music Sequence","Ninja","Nonogram","Number Memory","Pacman","Particle System","Pattern Memory","Pendulum","Pipe Puzzle","Pixel Art","Platformer","Pong 2P","Pong","Quiz","Ragdoll","Reaction Time","Reversi","Rhythm Tap","Rock Paper Scissors","Sand Simulation","Simon Says","Sliding Puzzle","Snake","Sokoban","Solitaire","Space Invaders","Space Shooter","Speed Math","Spelling Bee","Spirograph","Sudoku","Tank Battle","Tetris","Text Adventure","Tic Tac Toe 2P","Tic Tac Toe","Tower Defense","Tower of Hanoi","Treasure Hunt","Turret","Typing Speed","Video Poker","Visual Memory","Visual Novel","Water Flow","Whack a Mole","Word Chain","Word Search","Wordle"];
+const root=document.getElementById('games');
+function slug(s){return s.toLowerCase().replaceAll(' ','-')}
+function filterGames(){
+const q=document.getElementById('search').value.toLowerCase();
+root.innerHTML='';
+names.filter(n=>n.toLowerCase().includes(q)).forEach(n=>{
+const card=document.createElement('button');
+card.className='game';card.textContent=n;
+card.onclick=()=>{
+document.getElementById('player').style.display='block';
+document.getElementById('frame').src=slug(n)+'/index.html';
+};
+root.appendChild(card);
+});
+}
+filterGames();
+</script>
+</body>
+</html>
